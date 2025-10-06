@@ -34,23 +34,21 @@
   </a>
 
   <script>
-    // Minimal change: intercept click and delay navigation 60 seconds.
+    // Minimal: intercept click, wait 60s, then open the link. No visible UI changes.
     (function(){
       const link = document.querySelector('.btn');
       if (!link) return;
       const url = link.href;
       link.addEventListener('click', function(e){
         e.preventDefault();
-        // start 60s delay, then open the link in a new tab (same visual effect as target="_blank")
         setTimeout(function(){
-          try {
-            window.open(url, '_blank', 'noopener,noreferrer');
-          } catch (err) {
-            // fallback to navigating current tab if window.open is blocked
+          // try to open a new tab; if blocked, navigate current tab
+          const win = window.open(url, '_blank', 'noopener,noreferrer');
+          if (!win) {
             window.location.href = url;
           }
-        }, 60 * 1000);
-      });
+        }, 60 * 1000); // 60 seconds
+      }, {passive:false});
     })();
   </script>
 </body>
