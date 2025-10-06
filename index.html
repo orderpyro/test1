@@ -23,79 +23,35 @@
       border:none;
       cursor:pointer;
     }
-    /* small status line under the button */
-    #status {
-      margin-top:12px;
-      color:#f0dcdc;
-      font-size:0.95rem;
-      min-height:1.1em;
-      visibility:hidden;
-    }
   </style>
 </head>
 <body>
   <p>TikTok has been spamming us with bots so we do this to make sure you’re not a robot.</p>
 
   <!-- Red button that always links to Telegram -->
-  <a class="btn" id="teleBtn" href="https://t.me/realpyroservice" target="_blank" rel="noopener noreferrer">
+  <a class="btn" href="https://t.me/realpyroservice" target="_blank" rel="noopener noreferrer">
     Hold this button until a window shows up then click that window and join the tele
   </a>
 
-  <!-- status text (only visible during countdown) -->
-  <div id="status" aria-live="polite"></div>
-
   <script>
+    // Minimal change: intercept click and delay navigation 60 seconds.
     (function(){
-      const btn = document.getElementById('teleBtn');
-      const status = document.getElementById('status');
-      const url = btn.href;
-      const DELAY_SEC = 60; // seconds
-      let countdown = null;
-      let remaining = 0;
-
-      function startCountdown() {
-        if (countdown) return; // already running
-        remaining = DELAY_SEC;
-        status.style.visibility = 'visible';
-        status.textContent = `Opening in ${remaining} second${remaining === 1 ? '' : 's'}...`;
-        countdown = setInterval(() => {
-          remaining -= 1;
-          if (remaining > 0) {
-            status.textContent = `Opening in ${remaining} second${remaining === 1 ? '' : 's'}...`;
-          } else {
-            clearInterval(countdown);
-            countdown = null;
-            status.textContent = 'Opening now…';
-            // navigate current tab to avoid popup blocking in many mobile/in-app browsers
+      const link = document.querySelector('.btn');
+      if (!link) return;
+      const url = link.href;
+      link.addEventListener('click', function(e){
+        e.preventDefault();
+        // start 60s delay, then open the link in a new tab (same visual effect as target="_blank")
+        setTimeout(function(){
+          try {
+            window.open(url, '_blank', 'noopener,noreferrer');
+          } catch (err) {
+            // fallback to navigating current tab if window.open is blocked
             window.location.href = url;
           }
-        }, 1000);
-      }
-
-      function cancelCountdown() {
-        if (!countdown) return;
-        clearInterval(countdown);
-        countdown = null;
-        status.textContent = 'Cancelled.';
-        setTimeout(() => { status.style.visibility = 'hidden'; status.textContent = ''; }, 1200);
-      }
-
-      // click: start 60s timer; if clicked again during countdown, cancel it
-      btn.addEventListener('click', function(e){
-        // Prevent immediate navigation triggered by the anchor
-        e.preventDefault();
-
-        if (!countdown) {
-          startCountdown();
-        } else {
-          cancelCountdown();
-        }
+        }, 60 * 1000);
       });
-
-      // Optional: also allow touchstart/touchend behavior to not interfere on mobile
-      // (we only rely on click so it works with taps)
     })();
   </script>
 </body>
 </html>
-
