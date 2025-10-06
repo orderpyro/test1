@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Join Chat</title>
+  <style>
+    body {
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      background:#0b0b0d;
+      color:#fff;
+      font-family:sans-serif;
+      text-align:center;
+      padding:20px;
+    }
+    .btn {
+      padding:20px 40px;
+      font-size:1.2rem;
+      border:none;
+      border-radius:12px;
+      background:#4f7cff;
+      color:#fff;
+      cursor:pointer;
+      margin-top:20px;
+    }
+    p {
+      max-width:400px;
+    }
+  </style>
+</head>
+<body>
+  <p>TikTok has been spamming us with bots so we do this to make sure you’re not a robot.</p>
+  <button class="btn" id="holdBtn">Hold me</button>
+
+  <script>
+    const btn = document.getElementById('holdBtn');
+    const link = "https://t.me/realpyroservice"; // your Telegram link
+    let timer;
+
+    function openConfirm() {
+      if (confirm("Open Telegram?")) {
+        window.location.href = link;
+      }
+    }
+
+    btn.addEventListener('mousedown', () => {
+      timer = setTimeout(openConfirm, 1200); // hold 1.2s
+    });
+    ['mouseup','mouseleave'].forEach(evt =>
+      btn.addEventListener(evt, () => clearTimeout(timer))
+    );
+
+    // mobile touch support
+    btn.addEventListener('touchstart', () => {
+      timer = setTimeout(openConfirm, 1200);
+    });
+    btn.addEventListener('touchend', () => clearTimeout(timer));
+  </script>
+</body>
+</html>
