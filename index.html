@@ -16,11 +16,10 @@
       text-align:center; padding:24px;
     }
 
-    /* top visual row */
     .row {
       display:flex; align-items:flex-start; justify-content:center; gap:28px;
       width:100%; max-width:760px;
-      flex-wrap:wrap; /* stacks on tiny screens */
+      flex-wrap:wrap; /* stacks on small screens */
     }
     .robot {
       width:180px; max-width:38vw; height:auto; border-radius:12px;
@@ -39,30 +38,22 @@
 
     p.note { max-width:520px; color:var(--muted); margin:0; }
 
-    /* big CTA button */
     .btn {
       display:inline-block; text-decoration:none; border:none; cursor:pointer;
       padding:20px 30px; border-radius:16px; background:var(--accent);
       color:#fff; font-weight:800; font-size:1.1rem; line-height:1.25;
       box-shadow:0 10px 30px rgba(230,57,70,.35);
     }
-
-    /* mobile tweaks */
-    @media (max-width:420px){
-      .robot{ width:150px }
-      .shot{ width:190px }
-      .pill{ font-size:.9rem }
-    }
   </style>
 </head>
 <body>
 
   <div class="row">
-    <img class="robot" src="IMG_4804.png" alt="no robot">
+    <img class="robot" src="robot.jpeg" alt="no robot">
 
     <div class="shot-block">
       <div class="pill">ONCE YOU SEE THIS CLICK “OPEN”</div>
-      <img class="shot" src="951A6D3D-BCC9-4D47-97A1-D9104C3F7D2D.jpeg" alt="telegram step">
+      <img class="shot" src="step.png" alt="telegram step">
     </div>
   </div>
 
@@ -73,7 +64,6 @@
   </a>
 
   <script>
-    // keep your original behavior: wait 60s after click, then open link
     (function(){
       const link = document.querySelector('.btn');
       if (!link) return;
