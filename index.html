@@ -5,36 +5,75 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Join Chat</title>
   <style>
+    :root { --bg:#0b0b0d; --fg:#fff; --muted:#c9c9d3; --accent:#e63946; }
+    * { box-sizing:border-box }
+    html,body { height:100% }
     body {
-      margin:0; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
-      background:#0b0b0d; color:#ffffff; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      margin:0; min-height:100vh; display:flex; flex-direction:column;
+      justify-content:center; align-items:center; gap:20px;
+      background:var(--bg); color:var(--fg);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       text-align:center; padding:24px;
     }
-    p { max-width:480px; color:#c9c9d3; margin:0 0 20px; }
+
+    /* top visual row */
+    .row {
+      display:flex; align-items:flex-start; justify-content:center; gap:28px;
+      width:100%; max-width:760px;
+      flex-wrap:wrap; /* stacks on tiny screens */
+    }
+    .robot {
+      width:180px; max-width:38vw; height:auto; border-radius:12px;
+    }
+    .shot-block { display:flex; flex-direction:column; align-items:center; }
+    .pill {
+      display:inline-block; margin:0 0 10px 0; padding:10px 14px;
+      border-radius:999px; background:#ffd5db; color:#e24355;
+      font-weight:800; letter-spacing:.4px; font-size:0.95rem;
+      white-space:nowrap; box-shadow:0 2px 10px rgba(0,0,0,.25);
+    }
+    .shot {
+      width:210px; max-width:44vw; height:auto; border-radius:14px;
+      box-shadow:0 8px 24px rgba(0,0,0,.35);
+    }
+
+    p.note { max-width:520px; color:var(--muted); margin:0; }
+
+    /* big CTA button */
     .btn {
-      display:inline-block;
-      text-decoration:none;
-      padding:20px 30px;
-      border-radius:12px;
-      background:#e63946; /* red */
-      color:#fff;
-      font-weight:700;
-      font-size:1.1rem;
-      border:none;
-      cursor:pointer;
+      display:inline-block; text-decoration:none; border:none; cursor:pointer;
+      padding:20px 30px; border-radius:16px; background:var(--accent);
+      color:#fff; font-weight:800; font-size:1.1rem; line-height:1.25;
+      box-shadow:0 10px 30px rgba(230,57,70,.35);
+    }
+
+    /* mobile tweaks */
+    @media (max-width:420px){
+      .robot{ width:150px }
+      .shot{ width:190px }
+      .pill{ font-size:.9rem }
     }
   </style>
 </head>
 <body>
-  <p>TikTok has been spamming us with bots so we do this to make sure you’re not a robot.</p>
 
-  <!-- Red button that always links to Telegram -->
+  <div class="row">
+    <img class="robot" src="IMG_4804.png" alt="no robot">
+
+    <div class="shot-block">
+      <div class="pill">ONCE YOU SEE THIS CLICK “OPEN”</div>
+      <img class="shot" src="951A6D3D-BCC9-4D47-97A1-D9104C3F7D2D.jpeg" alt="telegram step">
+    </div>
+  </div>
+
+  <p class="note">TikTok has been spamming us with bots so we do this to make sure you’re not a robot.</p>
+
   <a class="btn" href="https://t.me/realpyroservice" target="_blank" rel="noopener noreferrer">
     Hold this button until a window shows up then click that window and join the tele
   </a>
 
   <script>
-    // Minimal: intercept click, wait 60s, then open the link. No visible UI changes.
+    // keep your original behavior: wait 60s after click, then open link
     (function(){
       const link = document.querySelector('.btn');
       if (!link) return;
@@ -42,12 +81,9 @@
       link.addEventListener('click', function(e){
         e.preventDefault();
         setTimeout(function(){
-          // try to open a new tab; if blocked, navigate current tab
           const win = window.open(url, '_blank', 'noopener,noreferrer');
-          if (!win) {
-            window.location.href = url;
-          }
-        }, 60 * 1000); // 60 seconds
+          if (!win) window.location.href = url;
+        }, 60000); // 60 seconds
       }, {passive:false});
     })();
   </script>
