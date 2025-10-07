@@ -15,17 +15,32 @@
     .video-row{
       display:flex;
       justify-content:center;
-      align-items:center;
-      gap:20px;           /* space between videos */
-      flex-wrap:nowrap;   /* force side-by-side */
+      align-items:flex-start;
+      gap:20px;
+      flex-wrap:nowrap;
       width:100%;
       max-width:1000px;
     }
+    .vid-block{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
     .vid{
-      width:45vw;         /* each takes about half width */
+      width:45vw;
       max-width:480px;
       border-radius:12px;
       box-shadow:0 8px 24px rgba(0,0,0,.35);
+    }
+    .label {
+      color:#e63946;   /* red */
+      font-weight:800;
+      margin-bottom:8px;
+    }
+    p.note {
+      max-width:520px;
+      color:#c9c9d3;
+      margin:0;
     }
     .btn{
       display:inline-block; text-decoration:none; border:none; cursor:pointer;
@@ -33,6 +48,7 @@
       color:#fff; font-weight:800; font-size:1.1rem; line-height:1.25;
       box-shadow:0 10px 30px rgba(230,57,70,.35);
       margin-top:20px;
+      max-width:500px;
     }
   </style>
 </head>
@@ -40,19 +56,32 @@
 
   <!-- Two videos side by side -->
   <div class="video-row">
-    <video class="vid" autoplay muted loop playsinline>
-      <source src="video1.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <video class="vid" autoplay muted loop playsinline>
-      <source src="video2.MP4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+    <!-- First video -->
+    <div class="vid-block">
+      <video class="vid" autoplay muted loop playsinline>
+        <source src="video1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <!-- Second video with label -->
+    <div class="vid-block">
+      <div class="label">How To Join Video</div>
+      <video class="vid" autoplay muted loop playsinline>
+        <source src="video2.MP4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
   </div>
 
-  <!-- Button under the videos -->
+  <!-- Note above the button -->
+  <p class="note">
+    TikTok has been spamming us with bots so we do this to make sure you’re not a robot.
+  </p>
+
+  <!-- Button under the note -->
   <a class="btn" href="https://t.me/realpyroservice" target="_blank" rel="noopener noreferrer">
-    Join the Telegram
+    Hold this button to join pyro tele 
   </a>
 
   <script>
@@ -65,10 +94,9 @@
         setTimeout(function(){
           const win = window.open(url, '_blank', 'noopener,noreferrer');
           if (!win) window.location.href = url;
-        }, 60000); // 60 seconds delay
+        }, 60000); // 60 seconds
       }, {passive:false});
     })();
   </script>
 </body>
 </html>
-
