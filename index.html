@@ -12,23 +12,14 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       text-align:center; padding:24px;
     }
-    .video-row{
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-      gap:20px;
-      flex-wrap:nowrap;
-      width:100%;
-      max-width:1000px;
-    }
     .vid-block{
       display:flex;
       flex-direction:column;
       align-items:center;
     }
     .vid{
-      width:45vw;
-      max-width:480px;
+      width:80vw;
+      max-width:600px;
       border-radius:12px;
       box-shadow:0 8px 24px rgba(0,0,0,.35);
     }
@@ -51,29 +42,19 @@
       box-shadow:0 10px 30px rgba(230,57,70,.35);
       margin-top:20px;
       max-width:500px;
+      white-space:normal; text-align:center;
     }
   </style>
 </head>
 <body>
 
-  <!-- Two videos side by side -->
-  <div class="video-row">
-    <!-- First video -->
-    <div class="vid-block">
-      <video class="vid" autoplay muted loop playsinline>
-        <source src="video1.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
-
-    <!-- Second video with label -->
-    <div class="vid-block">
-      <div class="label">How To Join Video</div>
-      <video class="vid" autoplay muted loop playsinline>
-        <source src="video2.MP4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
+  <!-- Only the second video remains -->
+  <div class="vid-block">
+    <div class="label">How To Join Video</div>
+    <video class="vid" autoplay muted loop playsinline>
+      <source src="video2.MP4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
   </div>
 
   <!-- Note above the button -->
@@ -102,8 +83,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
