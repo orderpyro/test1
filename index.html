@@ -12,12 +12,31 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       text-align:center; padding:24px;
     }
+
+    /* Heading above the video */
     .label {
       color:#e63946;
       font-weight:800;
       margin-bottom:8px;
       font-size:1.7rem;
     }
+
+    /* Video wrapper (so overlay only dims the video) */
+    .video-wrap {
+      position:relative;
+      display:inline-block;
+    }
+
+    /* Video sizing (kept modest so button stays visible) */
+    .vid{
+      width:50vw;
+      max-width:360px;
+      border-radius:12px;
+      box-shadow:0 8px 24px rgba(0,0,0,.35);
+      background:#000; /* no flash */
+    }
+
+    /* Note above the button */
     p.note {
       max-width:520px;
       color:#ffffff;
@@ -25,6 +44,8 @@
       font-size:1.2rem;
       font-weight:bold;
     }
+
+    /* Join button */
     .btn{
       display:inline-block; text-decoration:none; border:none; cursor:pointer;
       padding:20px 30px; border-radius:16px; background:#e63946;
@@ -34,11 +55,53 @@
       max-width:500px;
       white-space:normal; text-align:center;
     }
+
+    /* Tap-to-Play overlay (covers only the video) */
+    .overlay{
+      position:absolute;
+      inset:0;
+      display:none; /* shown only if autoplay fails */
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,.55);
+      border-radius:12px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .overlay-content{
+      display:flex; flex-direction:column; align-items:center; gap:10px;
+      font-weight:800; font-size:1.05rem;
+    }
+    .play-icon{
+      width:64px; height:64px; border-radius:50%;
+      background:#e63946; display:flex; align-items:center; justify-content:center;
+      box-shadow:0 8px 24px rgba(230,57,70,.45);
+    }
+    .play-icon svg{ width:28px; height:28px; fill:#fff; }
+    .overlay-text{ color:#fff; letter-spacing:.3px; }
   </style>
 </head>
 <body>
 
-  <div class="label">How To Join</div>
+  <div class="label">How To Join Video</div>
+
+  <div class="video-wrap">
+    <!-- Attribute order matters for some webviews -->
+    <video id="v2" class="vid" playsinline autoplay muted loop preload="auto">
+      <source src="video2.MP4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Overlay only over the video -->
+    <div id="tapOverlay" class="overlay" role="button" tabindex="0" aria-label="Tap to play">
+      <div class="overlay-content">
+        <div class="play-icon">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="overlay-text">Tap to play</div>
+      </div>
+    </div>
+  </div>
 
   <p class="note">
     TikTok Has Been Spamming Pyro With Bots So We Do This To Make Sure You’re Human.
@@ -50,19 +113,57 @@
 
   <script>
     (function(){
+      const video   = document.getElementById('v2');
+      const overlay = document.getElementById('tapOverlay');
+
+      // Try to autoplay; if blocked, show overlay
+      function tryAutoplay() {
+        const p = video.play();
+        if (p && typeof p.then === 'function') {
+          p.then(() => { overlay.style.display = 'none'; })
+           .catch(() => { overlay.style.display = 'flex'; });
+        } else {
+          setTimeout(() => {
+            overlay.style.display = video.paused ? 'flex' : 'none';
+          }, 300);
+        }
+      }
+
+      video.addEventListener('loadeddata', tryAutoplay);
+      video.addEventListener('canplay', tryAutoplay);
+
+      // Tap/keyboard to start inline playback
+      function activate() {
+        video.muted = true;
+        video.play().then(() => {
+          overlay.style.display = 'none';
+        }).catch(() => {
+          overlay.style.display = 'flex';
+        });
+      }
+      overlay.addEventListener('click', activate);
+      overlay.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+      });
+
+      // Keep overlay synced if user pauses/plays
+      video.addEventListener('pause', () => { overlay.style.display = 'flex'; });
+      video.addEventListener('play',  () => { overlay.style.display = 'none'; });
+
+      // Your existing delayed open on the CTA
       const link = document.querySelector('.btn');
-      if (!link) return;
-      const url = link.href;
-      link.addEventListener('click', function(e){
-        e.preventDefault();
-        setTimeout(function(){
-          const win = window.open(url, '_blank', 'noopener,noreferrer');
-          if (!win) window.location.href = url;
-        }, 60000); // 60 seconds
-      }, {passive:false});
+      if (link) {
+        const url = link.href;
+        link.addEventListener('click', function(e){
+          e.preventDefault();
+          setTimeout(function(){
+            const win = window.open(url, '_blank', 'noopener,noreferrer');
+            if (!win) window.location.href = url;
+          }, 60000); // 60 seconds
+        }, {passive:false});
+      }
     })();
   </script>
 </body>
 </html>
-
 
