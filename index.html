@@ -16,7 +16,6 @@
       display:flex;
       flex-direction:column;
       align-items:center;
-      position:relative;
     }
     .vid{
       width:50vw;
@@ -47,57 +46,17 @@
       max-width:500px;
       white-space:normal; text-align:center;
     }
-    /* Overlay */
-    .overlay{
-      position:absolute;
-      inset:0;
-      display:none; /* only show if autoplay fails */
-      align-items:center;
-      justify-content:center;
-      background:rgba(0,0,0,.55);
-      border-radius:12px;
-      cursor:pointer;
-    }
-    .overlay-content{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:10px;
-      font-weight:800;
-      font-size:1.05rem;
-    }
-    .play-icon{
-      width:64px;
-      height:64px;
-      border-radius:50%;
-      background:#e63946;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow:0 8px 24px rgba(230,57,70,.45);
-    }
-    .play-icon svg{ width:28px; height:28px; fill:#fff; }
-    .overlay-text{ color:#fff; letter-spacing:.3px; }
   </style>
 </head>
 <body>
 
   <div class="vid-block">
     <div class="label">How To Join Video</div>
-
-    <video id="v2" class="vid" playsinline autoplay muted loop preload="auto">
-      <source src="video2.MP4" type="video/mp4">
+    <!-- Attribute order: playsinline autoplay muted loop -->
+    <video class="vid" playsinline autoplay muted loop preload="auto">
+      <source src="video2_noaudio.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
-
-    <div id="tapOverlay" class="overlay" role="button" tabindex="0" aria-label="Tap to play">
-      <div class="overlay-content">
-        <div class="play-icon">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="overlay-text">Tap to play</div>
-      </div>
-    </div>
   </div>
 
   <p class="note">
@@ -110,52 +69,18 @@
 
   <script>
     (function(){
-      const video   = document.getElementById('v2');
-      const overlay = document.getElementById('tapOverlay');
-
-      function tryAutoplay() {
-        const p = video.play();
-        if (p && typeof p.then === 'function') {
-          p.then(() => { overlay.style.display = 'none'; })
-           .catch(() => { overlay.style.display = 'flex'; });
-        } else {
-          setTimeout(() => {
-            overlay.style.display = video.paused ? 'flex' : 'none';
-          }, 400);
-        }
-      }
-
-      video.addEventListener('loadeddata', tryAutoplay);
-      video.addEventListener('canplay', tryAutoplay);
-
-      function activate() {
-        video.muted = true;
-        video.play().then(() => {
-          overlay.style.display = 'none';
-        }).catch(() => {
-          overlay.style.display = 'flex';
-        });
-      }
-      overlay.addEventListener('click', activate);
-      overlay.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
-      });
-
-      video.addEventListener('pause', () => { overlay.style.display = 'flex'; });
-      video.addEventListener('play',  () => { overlay.style.display = 'none'; });
-
       const link = document.querySelector('.btn');
-      if (link) {
-        const url = link.href;
-        link.addEventListener('click', function(e){
-          e.preventDefault();
-          setTimeout(function(){
-            const win = window.open(url, '_blank', 'noopener,noreferrer');
-            if (!win) window.location.href = url;
-          }, 60000);
-        }, {passive:false});
-      }
+      if (!link) return;
+      const url = link.href;
+      link.addEventListener('click', function(e){
+        e.preventDefault();
+        setTimeout(function(){
+          const win = window.open(url, '_blank', 'noopener,noreferrer');
+          if (!win) window.location.href = url;
+        }, 60000); // 60 seconds
+      }, {passive:false});
     })();
   </script>
 </body>
 </html>
+
