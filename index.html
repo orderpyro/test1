@@ -4,152 +4,70 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Join Chat</title>
-
-  <!-- Meta polish -->
-  <meta name="theme-color" content="#000000">
-  <meta name="color-scheme" content="dark">
-  <meta name="description" content="Quick join page with a short how-to video and a single action.">
-
   <style>
-    :root{
-      --bg: #000;            /* true black per your ask */
-      --fg: #fff;
-      --muted: #c9c9d3;
-      --accent: #e63946;     /* your red */
-      --card: #0e0e10;       /* near-black card */
-      --ring: rgba(230,57,70,.4);
-      --radius: 16px;
-      --shadow: 0 10px 30px rgba(0,0,0,.45);
-    }
-
-    /* Base reset + typography */
-    * { box-sizing: border-box }
-    html, body { height: 100% }
     body{
-      margin:0; background:var(--bg); color:var(--fg);
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      display:flex; align-items:center; justify-content:center; padding:24px;
+      margin:0; min-height:100vh; display:flex; flex-direction:column;
+      justify-content:center; align-items:center; gap:20px;
+      background:#000000; color:#fff;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      text-align:center; padding:24px;
     }
-
-    /* Layout */
-    .wrap{
-      width:100%; max-width:980px; margin:auto;
-      display:flex; flex-direction:column; align-items:center; gap:22px;
+    .vid-block{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
     }
-    .card{
-      width:100%;
-      background:var(--card);
-      border:1px solid #1b1b22;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding:20px;
-      display:flex; flex-direction:column; align-items:center; gap:16px;
+    .vid{
+      width:80vw;
+      max-width:600px;
+      border-radius:12px;
+      box-shadow:0 8px 24px rgba(0,0,0,.35);
     }
-
-    /* Heading */
-    .title{
+    .label {
+      color:#e63946;   /* red */
+      font-weight:800;
+      margin-bottom:8px;
+    }
+    p.note {
+      max-width:520px;
+      color:#ffffff;
       margin:0;
-      font-size: clamp(1.1rem, 1rem + 0.8vw, 1.6rem);
-      font-weight: 800;
-      letter-spacing:.3px;
+      font-size:1.2rem;
+      font-weight:bold;
     }
-
-    /* Video */
-    .videoWrap{
-      width:100%;
-      display:flex; flex-direction:column; align-items:center; gap:10px;
-    }
-    .label{
-      color: var(--accent);
-      font-weight: 800;
-      letter-spacing:.3px;
-    }
-    video{
-      width: min(720px, 92vw);
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      background:#000;                    /* avoids flash on load */
-      outline: none;
-    }
-
-    /* Note text */
-    .note{
-      margin:0;
-      color:#fff;
-      font-size: clamp(1rem, .95rem + 0.3vw, 1.15rem);
-      font-weight: 700;
-      text-align:center;
-      max-width: 640px;
-    }
-
-    /* CTA + helpers */
-    .actions{ display:flex; flex-direction:column; align-items:center; gap:10px; }
     .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      padding:18px 24px; border-radius: var(--radius);
-      background: var(--accent); color:#fff; border:1px solid rgba(255,255,255,.08);
-      font-weight: 800; font-size: 1.05rem; line-height:1.2; text-align:center;
-      text-decoration:none; cursor:pointer; min-width:min(520px, 92vw);
-      box-shadow: 0 12px 28px rgba(230,57,70,.35);
-      transition: transform .08s ease, box-shadow .2s ease, outline-color .2s ease;
-    }
-    .btn:hover { transform: translateY(-1px); box-shadow: 0 16px 36px rgba(230,57,70,.45); }
-    .btn:active { transform: translateY(0); }
-    .btn:focus-visible{ outline: 3px solid var(--ring); outline-offset: 2px; }
-
-    .subtle{ color: var(--muted); font-size: .9rem; text-align:center; margin:0 }
-    .links{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center }
-    .ghost{
-      background:transparent; color:#fff; border:1px solid #2b2b33;
-      padding:10px 14px; border-radius:10px; cursor:pointer;
-    }
-    .ghost:focus-visible{ outline: 3px solid var(--ring); outline-offset: 2px; }
-
-    /* Respect accessibility setting */
-    @media (prefers-reduced-motion: reduce) {
-      .btn{ transition: none }
-      .btn:hover, .btn:active{ transform:none }
+      display:inline-block; text-decoration:none; border:none; cursor:pointer;
+      padding:20px 30px; border-radius:16px; background:#e63946;
+      color:#fff; font-weight:800; font-size:1.1rem; line-height:1.25;
+      box-shadow:0 10px 30px rgba(230,57,70,.35);
+      margin-top:20px;
+      max-width:500px;
+      white-space:normal; text-align:center;
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
 
-    <section class="card" aria-labelledby="title">
-      <h1 id="title" class="title">Join Chat</h1>
+  <!-- Only the second video remains -->
+  <div class="vid-block">
+    <div class="label">How To Join Video</div>
+    <video class="vid" autoplay muted loop playsinline>
+      <source src="video2.MP4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
 
-      <div class="videoWrap">
-        <div class="label">How To Join Video</div>
-        <!-- Use a poster frame if you have one: poster="poster.jpg" -->
-        <video autoplay muted loop playsinline preload="auto">
-          <source src="video2.MP4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
+  <!-- Note above the button -->
+  <p class="note">
+    TikTok Has Been Spamming Pyro With Bots So We Do This To Make Sure You’re Human.
+  </p>
 
-      <p class="note">
-        TikTok Has Been Spamming Pyro With Bots So We Do This To Make Sure You’re Human.
-      </p>
-
-      <div class="actions">
-        <a class="btn" href="https://t.me/realpyroservice" target="_blank" rel="noopener noreferrer">
-          Hold This Button To Join Pyro
-        </a>
-
-        <!-- tiny, classy helpers (optional) -->
-        <div class="links">
-          <button class="ghost" id="copy">Copy Telegram Link</button>
-          <a class="ghost" href="https://t.me/realpyroservice" target="_blank" rel="noopener noreferrer">Open in new tab</a>
-        </div>
-        <p class="subtle" id="copied" style="display:none;">Link copied ✓ Paste it in your browser if a popup is blocked.</p>
-      </div>
-    </section>
-
-  </main>
+  <!-- Button under the note -->
+  <a class="btn" href="https://t.me/realpyroservice" target="_blank" rel="noopener noreferrer">
+    Hold This Button To Join Pyro 
+  </a>
 
   <script>
-    // Keep your original delayed-open behavior on the main CTA
     (function(){
       const link = document.querySelector('.btn');
       if (!link) return;
@@ -159,25 +77,10 @@
         setTimeout(function(){
           const win = window.open(url, '_blank', 'noopener,noreferrer');
           if (!win) window.location.href = url;
-        }, 60000); // 60 seconds (your original behavior)
+        }, 60000); // 60 seconds
       }, {passive:false});
-    })();
-
-    // Small UX helper: copy link fallback
-    (function(){
-      const btn = document.getElementById('copy');
-      const msg = document.getElementById('copied');
-      if (!btn) return;
-      btn.addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText('https://t.me/realpyroservice');
-          msg.style.display = 'block';
-          setTimeout(()=> msg.style.display='none', 2500);
-        } catch (e) {
-          alert('Copy failed. Press and hold to copy:\nhttps://t.me/realpyroservice');
-        }
-      });
     })();
   </script>
 </body>
 </html>
+
