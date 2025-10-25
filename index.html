@@ -26,16 +26,16 @@
 
     /* Heading */
     .label {
-      color:#e63946;
+      color:#FFFFFF; /* crisp white */
       font-weight:800;
       margin-bottom:8px;
       font-size:1.7rem;
     }
 
-    /* Note above the button */
+    /* Message text */
     p.note {
       max-width:520px;
-      color:#ffffff;
+      color:#E0E0E0; /* softer white/gray */
       margin:0;
       font-size:1.2rem;
       font-weight:bold;
@@ -43,13 +43,29 @@
 
     /* Join button */
     .btn{
-      display:inline-block; text-decoration:none; border:none; cursor:pointer;
-      padding:20px 30px; border-radius:16px; background:#e63946;
-      color:#fff; font-weight:800; font-size:1.1rem; line-height:1.25;
-      box-shadow:0 10px 30px rgba(230,57,70,.35);
+      display:inline-block; 
+      text-decoration:none; 
+      border:none; 
+      cursor:pointer;
+      padding:20px 30px; 
+      border-radius:16px; 
+      background:#0A192F; /* deep navy background */
+      color:#3B82F6; /* electric blue text */
+      font-weight:800; 
+      font-size:1.1rem; 
+      line-height:1.25;
+      box-shadow:0 10px 30px rgba(0,0,0,.5);
       margin-top:6px;
       max-width:500px;
-      white-space:normal; text-align:center;
+      white-space:normal; 
+      text-align:center;
+      transition: all 0.25s ease;
+    }
+
+    /* Hover effect for button */
+    .btn:hover {
+      background:#1E293B; /* slightly lighter slate */
+      color:#60A5FA; /* lighter blue */
     }
 
     /* Mobile fix: background scrolls instead of fixed */
