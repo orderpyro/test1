@@ -54,7 +54,7 @@
     .overlay{
       position:absolute;
       inset:0;
-      display:none;
+      display:flex;
       align-items:center;
       justify-content:center;
       background:rgba(0,0,0,.55);
@@ -79,14 +79,6 @@
       box-shadow:0 8px 24px rgba(0,0,0,.45);
     }
     .play-icon svg{ width:28px; height:28px; fill:#3B82F6; }
-
-    p.note {
-      max-width:520px;
-      color:#E0E0E0;
-      margin:10px 0 0;
-      font-size:1.2rem;
-      font-weight:bold;
-    }
 
     .btn{
       display:inline-block; 
@@ -133,7 +125,7 @@
   <div class="label">How To Join Video</div>
 
   <div class="video-wrap">
-    <video id="v1" class="vid" playsinline autoplay muted loop preload="auto">
+    <video id="v1" class="vid" preload="auto">
       <source src="video1.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -143,16 +135,12 @@
         <div class="play-icon">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
         </div>
-        <div>Tap to play with sound</div>
+        <div>Tap to play</div>
       </div>
     </div>
   </div>
 
-  <p class="note">
-    TikTok Has Been Spamming Us With Bots So We Do This To Make Sure You’re Human.
-  </p>
-
-  <a class="btn" href="https://t.me/realpyroservice" target="_blank" rel="noopener noreferrer">
+  <a class="btn" href="https://t.me/gameovernba" target="_blank" rel="noopener noreferrer">
     Hold This Button To Join Game Over
   </a>
 
@@ -161,36 +149,32 @@
       const video   = document.getElementById('v1');
       const overlay = document.getElementById('tapOverlay');
 
-      function tryAutoplay() {
-        const p = video.play();
-        if (p && typeof p.then === 'function') {
-          p.then(() => { overlay.style.display = 'none'; })
-           .catch(() => { overlay.style.display = 'flex'; });
-        } else {
-          setTimeout(() => {
-            overlay.style.display = video.paused ? 'flex' : 'none';
-          }, 300);
-        }
-      }
-      video.addEventListener('loadeddata', tryAutoplay);
-      video.addEventListener('canplay', tryAutoplay);
+      overlay.style.display = 'flex';
 
-      // Tap or key to unmute & play
       function activate() {
-        video.muted = false;  // unmute when tapped
+        video.controls = true;
+        video.muted = false;
+
+        // Fullscreen
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) {
+          video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) {
+          video.msRequestFullscreen();
+        }
+
         video.play().then(() => {
           overlay.style.display = 'none';
         }).catch(() => {
           overlay.style.display = 'flex';
         });
       }
+
       overlay.addEventListener('click', activate);
       overlay.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
       });
-
-      video.addEventListener('pause', () => { overlay.style.display = 'flex'; });
-      video.addEventListener('play',  () => { overlay.style.display = 'none'; });
 
       const link = document.querySelector('.btn');
       if (link) {
@@ -207,4 +191,5 @@
   </script>
 </body>
 </html>
+
 
