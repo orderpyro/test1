@@ -112,14 +112,13 @@
       color:#60A5FA;
     }
 
-    /* Mobile adjustments */
     @media (max-width: 768px) {
       body { background-attachment: scroll; }
       .vid { 
-        width: 75vw;       /* smaller than before */
-        max-width: 360px;  /* cap it */
+        width: 75vw;
+        max-width: 360px;
         border-radius:16px; 
-        box-shadow:0 6px 18px rgba(0,0,0,.5); /* subtle floating card look */
+        box-shadow:0 6px 18px rgba(0,0,0,.5);
       }
     }
   </style>
@@ -144,7 +143,7 @@
         <div class="play-icon">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
         </div>
-        <div>Tap to play</div>
+        <div>Tap to play with sound</div>
       </div>
     </div>
   </div>
@@ -176,8 +175,9 @@
       video.addEventListener('loadeddata', tryAutoplay);
       video.addEventListener('canplay', tryAutoplay);
 
+      // Tap or key to unmute & play
       function activate() {
-        video.muted = true;
+        video.muted = false;  // unmute when tapped
         video.play().then(() => {
           overlay.style.display = 'none';
         }).catch(() => {
@@ -207,3 +207,4 @@
   </script>
 </body>
 </html>
+
