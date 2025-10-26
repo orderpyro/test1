@@ -14,7 +14,6 @@
       align-items:center; 
       gap:20px;
 
-      /* Background image */
       background: url("./your-image.jpeg") no-repeat center center fixed;
       background-size: cover;
 
@@ -24,7 +23,6 @@
       padding:24px;
     }
 
-    /* Hook text */
     .hook {
       max-width: 700px;
       font-size: 1.3rem;
@@ -35,7 +33,6 @@
       text-shadow: 0 2px 4px rgba(0,0,0,0.6);
     }
 
-    /* Heading */
     .label {
       color:#FFFFFF;
       font-weight:800;
@@ -43,22 +40,21 @@
       font-size:1.7rem;
     }
 
-    /* --- Video block --- */
     .video-wrap {
       position:relative;
       display:inline-block;
-      margin-top:8px;        /* space under the heading */
+      margin-top:8px;
     }
     .vid{
       width: min(50vw, 360px);
       border-radius:12px;
       box-shadow:0 8px 24px rgba(0,0,0,.35);
-      background:#000; /* prevent flash */
+      background:#000;
     }
     .overlay{
       position:absolute;
       inset:0;
-      display:none;          /* shown if autoplay is blocked */
+      display:none;
       align-items:center;
       justify-content:center;
       background:rgba(0,0,0,.55);
@@ -78,13 +74,12 @@
     }
     .play-icon{
       width:64px; height:64px; border-radius:50%;
-      background:#0A192F;                 /* deep navy */
+      background:#0A192F;
       display:flex; align-items:center; justify-content:center;
       box-shadow:0 8px 24px rgba(0,0,0,.45);
     }
-    .play-icon svg{ width:28px; height:28px; fill:#3B82F6; } /* electric blue triangle */
+    .play-icon svg{ width:28px; height:28px; fill:#3B82F6; }
 
-    /* Message */
     p.note {
       max-width:520px;
       color:#E0E0E0;
@@ -93,7 +88,6 @@
       font-weight:bold;
     }
 
-    /* Button */
     .btn{
       display:inline-block; 
       text-decoration:none; 
@@ -101,8 +95,8 @@
       cursor:pointer;
       padding:20px 30px; 
       border-radius:16px; 
-      background:#0A192F;         /* deep navy */
-      color:#3B82F6;              /* electric blue text */
+      background:#0A192F;  
+      color:#3B82F6;       
       font-weight:800; 
       font-size:1.1rem; 
       line-height:1.25;
@@ -118,7 +112,6 @@
       color:#60A5FA;
     }
 
-    /* Mobile: background attachment */
     @media (max-width: 768px) {
       body { background-attachment: scroll; }
       .vid { width: 88vw; max-width: 420px; }
@@ -134,14 +127,12 @@
 
   <div class="label">How To Join Video</div>
 
-  <!-- Video right under the title -->
   <div class="video-wrap">
     <video id="v1" class="vid" playsinline autoplay muted loop preload="auto">
       <source src="video1.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
 
-    <!-- Tap-to-play overlay -->
     <div id="tapOverlay" class="overlay" role="button" tabindex="0" aria-label="Tap to play">
       <div class="overlay-content">
         <div class="play-icon">
@@ -162,10 +153,9 @@
 
   <script>
     (function(){
-      const video   = document.getElementById('v2');
+      const video   = document.getElementById('v1');  // matches your HTML id
       const overlay = document.getElementById('tapOverlay');
 
-      // Try to autoplay; if blocked, show overlay
       function tryAutoplay() {
         const p = video.play();
         if (p && typeof p.then === 'function') {
@@ -180,7 +170,6 @@
       video.addEventListener('loadeddata', tryAutoplay);
       video.addEventListener('canplay', tryAutoplay);
 
-      // Activate playback on user gesture
       function activate() {
         video.muted = true;
         video.play().then(() => {
@@ -194,11 +183,9 @@
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
       });
 
-      // Keep overlay synced with play/pause
       video.addEventListener('pause', () => { overlay.style.display = 'flex'; });
       video.addEventListener('play',  () => { overlay.style.display = 'none'; });
 
-      // Delayed open on CTA
       const link = document.querySelector('.btn');
       if (link) {
         const url = link.href;
@@ -207,12 +194,10 @@
           setTimeout(function(){
             const win = window.open(url, '_blank', 'noopener,noreferrer');
             if (!win) window.location.href = url;
-          }, 60000); // 60 seconds
+          }, 60000);
         }, {passive:false});
       }
     })();
   </script>
 </body>
 </html>
-
-
