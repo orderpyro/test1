@@ -14,7 +14,7 @@
       align-items:center; 
       gap:20px;
 
-      /* Background image setup */
+      /* Background image */
       background: url("./your-image.jpeg") no-repeat center center fixed;
       background-size: cover;
 
@@ -29,30 +29,71 @@
       max-width: 700px;
       font-size: 1.3rem;
       font-weight: 600;
-      color: #FFFFFF; /* crisp white */
-      margin-bottom: 16px;
+      color: #FFFFFF;
+      margin-bottom: 12px;
       line-height: 1.5;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.6); /* readability */
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
     }
 
     /* Heading */
     .label {
-      color:#FFFFFF; /* crisp white */
+      color:#FFFFFF;
       font-weight:800;
-      margin-bottom:8px;
+      margin-bottom:4px;
       font-size:1.7rem;
     }
 
-    /* Message text */
+    /* --- Video block --- */
+    .video-wrap {
+      position:relative;
+      display:inline-block;
+      margin-top:8px;        /* space under the heading */
+    }
+    .vid{
+      width: min(50vw, 360px);
+      border-radius:12px;
+      box-shadow:0 8px 24px rgba(0,0,0,.35);
+      background:#000; /* prevent flash */
+    }
+    .overlay{
+      position:absolute;
+      inset:0;
+      display:none;          /* shown if autoplay is blocked */
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,.55);
+      border-radius:12px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .overlay-content{
+      display:flex; 
+      flex-direction:column; 
+      align-items:center; 
+      gap:10px;
+      font-weight:800; 
+      font-size:1.05rem;
+      color:#fff;
+      text-shadow:0 1px 2px rgba(0,0,0,.5);
+    }
+    .play-icon{
+      width:64px; height:64px; border-radius:50%;
+      background:#0A192F;                 /* deep navy */
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 8px 24px rgba(0,0,0,.45);
+    }
+    .play-icon svg{ width:28px; height:28px; fill:#3B82F6; } /* electric blue triangle */
+
+    /* Message */
     p.note {
       max-width:520px;
-      color:#E0E0E0; /* softer white/gray */
-      margin:0;
+      color:#E0E0E0;
+      margin:10px 0 0;
       font-size:1.2rem;
       font-weight:bold;
     }
 
-    /* Join button */
+    /* Button */
     .btn{
       display:inline-block; 
       text-decoration:none; 
@@ -60,30 +101,27 @@
       cursor:pointer;
       padding:20px 30px; 
       border-radius:16px; 
-      background:#0A192F; /* deep navy background */
-      color:#3B82F6; /* electric blue text */
+      background:#0A192F;         /* deep navy */
+      color:#3B82F6;              /* electric blue text */
       font-weight:800; 
       font-size:1.1rem; 
       line-height:1.25;
       box-shadow:0 10px 30px rgba(0,0,0,.5);
-      margin-top:6px;
+      margin-top:10px;
       max-width:500px;
       white-space:normal; 
       text-align:center;
       transition: all 0.25s ease;
     }
-
-    /* Hover effect for button */
     .btn:hover {
-      background:#1E293B; /* slightly lighter slate */
-      color:#60A5FA; /* lighter blue */
+      background:#1E293B; 
+      color:#60A5FA;
     }
 
-    /* Mobile fix: background scrolls instead of fixed */
+    /* Mobile: background attachment */
     @media (max-width: 768px) {
-      body {
-        background-attachment: scroll;
-      }
+      body { background-attachment: scroll; }
+      .vid { width: 88vw; max-width: 420px; }
     }
   </style>
 </head>
@@ -96,16 +134,71 @@
 
   <div class="label">How To Join</div>
 
+  <!-- Video right under the title -->
+  <div class="video-wrap">
+    <video id="v2" class="vid" playsinline autoplay muted loop preload="auto">
+      <source src="video2.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Tap-to-play overlay -->
+    <div id="tapOverlay" class="overlay" role="button" tabindex="0" aria-label="Tap to play">
+      <div class="overlay-content">
+        <div class="play-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div>Tap to play</div>
+      </div>
+    </div>
+  </div>
+
   <p class="note">
     TikTok Has Been Spamming Us With Bots So We Do This To Make Sure You’re Human.
   </p>
 
-  <a class="btn" href="https://t.me/gameovernba" target="_blank" rel="noopener noreferrer">
+  <a class="btn" href="https://t.me/realpyroservice" target="_blank" rel="noopener noreferrer">
     Hold This Button To Join Game Over
   </a>
 
   <script>
     (function(){
+      const video   = document.getElementById('v2');
+      const overlay = document.getElementById('tapOverlay');
+
+      // Try to autoplay; if blocked, show overlay
+      function tryAutoplay() {
+        const p = video.play();
+        if (p && typeof p.then === 'function') {
+          p.then(() => { overlay.style.display = 'none'; })
+           .catch(() => { overlay.style.display = 'flex'; });
+        } else {
+          setTimeout(() => {
+            overlay.style.display = video.paused ? 'flex' : 'none';
+          }, 300);
+        }
+      }
+      video.addEventListener('loadeddata', tryAutoplay);
+      video.addEventListener('canplay', tryAutoplay);
+
+      // Activate playback on user gesture
+      function activate() {
+        video.muted = true;
+        video.play().then(() => {
+          overlay.style.display = 'none';
+        }).catch(() => {
+          overlay.style.display = 'flex';
+        });
+      }
+      overlay.addEventListener('click', activate);
+      overlay.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+      });
+
+      // Keep overlay synced with play/pause
+      video.addEventListener('pause', () => { overlay.style.display = 'flex'; });
+      video.addEventListener('play',  () => { overlay.style.display = 'none'; });
+
+      // Delayed open on CTA
       const link = document.querySelector('.btn');
       if (link) {
         const url = link.href;
@@ -114,14 +207,10 @@
           setTimeout(function(){
             const win = window.open(url, '_blank', 'noopener,noreferrer');
             if (!win) window.location.href = url;
-          }, 60000);
+          }, 60000); // 60 seconds
         }, {passive:false});
       }
     })();
   </script>
 </body>
 </html>
-
-
-
-
