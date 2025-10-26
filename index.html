@@ -112,9 +112,15 @@
       color:#60A5FA;
     }
 
+    /* Mobile adjustments */
     @media (max-width: 768px) {
       body { background-attachment: scroll; }
-      .vid { width: 88vw; max-width: 420px; }
+      .vid { 
+        width: 75vw;       /* smaller than before */
+        max-width: 360px;  /* cap it */
+        border-radius:16px; 
+        box-shadow:0 6px 18px rgba(0,0,0,.5); /* subtle floating card look */
+      }
     }
   </style>
 </head>
@@ -153,7 +159,7 @@
 
   <script>
     (function(){
-      const video   = document.getElementById('v1');  // matches your HTML id
+      const video   = document.getElementById('v1');
       const overlay = document.getElementById('tapOverlay');
 
       function tryAutoplay() {
